@@ -3,22 +3,22 @@ services:
   app:
     build:
       context: .
-    container_name: Django_app
+    container_name: tikishsara
     expose:
       - 8000
     volumes:
       - .:/app
-#    depends_on:
-#      - database
-#      - niginx
+    depends_on:
+      - datatbase
+      - nginx
     environment:
       - DEBUG=False
       - ALLOWED_HOSTS=*
-      - DATABASE-NAME=postgres
-      - DATABASE-USER=postgres
-      - DATABASE-PASSWORD=postgres
-      - DATABASE-HOST=database
-      - DATABASE-PORT=5432
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
 
   datatbase:
     container_name: database
@@ -32,13 +32,13 @@ services:
     restart: always
 
 
-  niginx:
+  nginx:
     build: ./nginx
     container_name: nginx
     ports:
       - "80:80"
     volumes:
-#      - ./nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       - ./static:/app/static
       - ./media:/app/media
 volumes:
